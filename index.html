@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste Vercel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        button {
+            background-color: #0070f3;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        button:hover {
+            background-color: #0051b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🚀 Meu Site de Teste</h1>
+        <p>Se você está vendo esta página, o deploy na Vercel funcionou!</p>
+        <button onclick="interagir()">Clique Aqui</button>
+        <p id="mensagem" style="margin-top: 15px; font-weight: bold; color: #0070f3;"></p>
+    </div>
+
+    <script>
+        function interagir() {
+            document.getElementById('mensagem').innerText = '🎉 Sucesso! O JavaScript também está funcionando.';
+        }
+    </script>
+
+</body>
+</html>
