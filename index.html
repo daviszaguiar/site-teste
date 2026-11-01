@@ -1,57 +1,4205 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teste Vercel</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            color: #333;
-            display: flex;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apuração Eleitoral</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+        background: #f1f8f4;
+        color: #183b2a;
+        min-height: 100vh;
+    }
+
+    header {
+        background: linear-gradient(135deg, #08783d, #0b9b50);
+        color: white;
+        padding: 22px 30px;
+        box-shadow: 0 3px 12px rgba(0,0,0,.15);
+    }
+
+    header .top {
+        max-width: 1200px;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+    }
+
+    header h1 {
+        font-size: 28px;
+    }
+
+    header p {
+        margin-top: 5px;
+        opacity: .9;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 30px auto;
+        padding: 0 20px;
+    }
+
+    .card {
+        background: white;
+        border-radius: 14px;
+        padding: 22px;
+        margin-bottom: 22px;
+        box-shadow: 0 4px 18px rgba(0,0,0,.08);
+    }
+
+    .card h2 {
+        margin-bottom: 18px;
+        color: #08783d;
+    }
+
+    .card h3 {
+        color: #08783d;
+        margin-bottom: 12px;
+    }
+
+    button {
+        border: none;
+        border-radius: 8px;
+        padding: 11px 17px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: .2s;
+    }
+
+    button:hover {
+        transform: translateY(-1px);
+        opacity: .92;
+    }
+
+    .btn-green {
+        background: #08783d;
+        color: white;
+    }
+
+    .btn-light {
+        background: #e1f3e8;
+        color: #08783d;
+    }
+
+    .btn-red {
+        background: #c62828;
+        color: white;
+    }
+
+    .btn-gray {
+        background: #667085;
+        color: white;
+    }
+
+    .btn-yellow {
+        background: #d99b00;
+        color: white;
+    }
+
+    .btn-blue {
+        background: #1769aa;
+        color: white;
+    }
+
+    .hidden {
+        display: none !important;
+    }
+
+    .toolbar {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+    }
+
+    select,
+    input {
+        width: 100%;
+        padding: 11px 12px;
+        border: 1px solid #c8d8ce;
+        border-radius: 8px;
+        outline: none;
+        background: white;
+        font-size: 15px;
+    }
+
+    select:focus,
+    input:focus {
+        border-color: #08783d;
+        box-shadow: 0 0 0 2px rgba(8,120,61,.1);
+    }
+
+    label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: bold;
+        color: #28553d;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+    }
+
+    .grid-4 {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+    }
+
+    .candidate-card {
+        border: 1px solid #d9e7df;
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 10px;
+        background: #fbfefc;
+    }
+
+    .candidate-card .name {
+        font-size: 18px;
+        font-weight: bold;
+        color: #08783d;
+    }
+
+    .candidate-card .party {
+        color: #667085;
+        margin-top: 3px;
+    }
+
+    .candidate-card .number {
+        display: inline-block;
+        margin-top: 8px;
+        background: #08783d;
+        color: white;
+        padding: 4px 9px;
+        border-radius: 6px;
+        font-weight: bold;
+    }
+
+    .candidate-card .actions {
+        margin-top: 12px;
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .state-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 10px;
+    }
+
+    .tag {
+        background: #e1f3e8;
+        color: #08783d;
+        border-radius: 15px;
+        padding: 5px 9px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .tag-blue {
+        background: #e5f1ff;
+        color: #205493;
+    }
+
+    .result-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 18px;
+    }
+
+    .result-title {
+        font-size: 25px;
+        font-weight: bold;
+        color: #08783d;
+    }
+
+    .result-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    .result-table th,
+    .result-table td {
+        padding: 13px 10px;
+        border-bottom: 1px solid #e4ebe7;
+        text-align: left;
+    }
+
+    .result-table th {
+        background: #eaf6ee;
+        color: #17613a;
+    }
+
+    .result-table tr:hover td {
+        background: #f8fcf9;
+    }
+
+    .bar {
+        width: 100%;
+        height: 9px;
+        background: #e4ebe7;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-top: 7px;
+    }
+
+    .bar-fill {
+        height: 100%;
+        background: #0a914a;
+        border-radius: 10px;
+    }
+
+    .summary {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-top: 20px;
+    }
+
+    .summary-box {
+        background: #f3faf6;
+        border: 1px solid #dcece2;
+        border-radius: 10px;
+        padding: 15px;
+    }
+
+    .summary-box .label {
+        font-size: 13px;
+        color: #667085;
+    }
+
+    .summary-box .value {
+        font-size: 23px;
+        font-weight: bold;
+        color: #08783d;
+        margin-top: 5px;
+    }
+
+    .login-box {
+        max-width: 450px;
+        margin: 50px auto;
+    }
+
+    .admins {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .admin-option {
+        border: 2px solid #d8e7de;
+        border-radius: 12px;
+        padding: 20px;
+        text-align: center;
+        cursor: pointer;
+        transition: .2s;
+    }
+
+    .admin-option:hover {
+        border-color: #08783d;
+        background: #f2faf5;
+    }
+
+    .admin-option.selected {
+        border-color: #08783d;
+        background: #e8f6ee;
+    }
+
+    .admin-icon {
+        width: 65px;
+        height: 65px;
+        background: #08783d;
+        color: white;
+        border-radius: 50%;
+        margin: auto auto 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 25px;
+        font-weight: bold;
+    }
+
+    .checkbox-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        max-height: 300px;
+        overflow-y: auto;
+        padding: 5px;
+        border: 1px solid #dce7e0;
+        border-radius: 8px;
+    }
+
+    .check-item {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        padding: 8px;
+        border-radius: 6px;
+        background: #f7fbf8;
+    }
+
+    .check-item input {
+        width: auto;
+    }
+
+    .vote-row {
+        display: grid;
+        grid-template-columns: 1fr 180px;
+        gap: 15px;
+        align-items: center;
+        padding: 12px;
+        border-bottom: 1px solid #e3ebe6;
+    }
+
+    .vote-name {
+        font-weight: bold;
+    }
+
+    .vote-info {
+        color: #667085;
+        font-size: 13px;
+    }
+
+    .notice {
+        padding: 13px 16px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+    }
+
+    .notice.success {
+        background: #dff5e7;
+        color: #17613a;
+    }
+
+    .notice.error {
+        background: #fde5e5;
+        color: #a51e1e;
+    }
+
+    .notice.info {
+        background: #e5f1ff;
+        color: #205493;
+    }
+
+    .notice.warning {
+        background: #fff4d6;
+        color: #795900;
+    }
+
+    .empty {
+        text-align: center;
+        padding: 35px;
+        color: #667085;
+    }
+
+    .public-selector {
+        max-width: 500px;
+    }
+
+    .round-selector {
+        max-width: 300px;
+    }
+
+    .admin-nav {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 22px;
+    }
+
+    .admin-nav button.active {
+        background: #08783d;
+        color: white;
+    }
+
+    .admin-nav button:not(.active) {
+        background: #e3f2e9;
+        color: #08783d;
+    }
+
+    .round-card {
+        border: 2px solid #d9e7df;
+        border-radius: 12px;
+        padding: 18px;
+        margin-bottom: 15px;
+        background: #fbfefc;
+    }
+
+    .round-card.active-round {
+        border-color: #08783d;
+        background: #f3faf6;
+    }
+
+    .round-badge {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 15px;
+        background: #08783d;
+        color: white;
+        font-size: 12px;
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+
+    .second-round-candidate {
+        border: 2px solid #d9e7df;
+        border-radius: 10px;
+        padding: 12px;
+        margin-bottom: 8px;
+        background: white;
+    }
+
+    .second-round-candidate.selected {
+        border-color: #08783d;
+        background: #e8f6ee;
+    }
+
+    .winner-box {
+        margin-top: 20px;
+        padding: 20px;
+        border-radius: 12px;
+        background: #e8f6ee;
+        border: 2px solid #08783d;
+        text-align: center;
+    }
+
+    .winner-box h3 {
+        font-size: 24px;
+        margin-bottom: 8px;
+    }
+
+    .winner-box .winner-name {
+        font-size: 25px;
+        font-weight: bold;
+        color: #08783d;
+    }
+
+    footer {
+        text-align: center;
+        padding: 30px;
+        color: #667085;
+        font-size: 13px;
+    }
+
+    @media(max-width: 800px) {
+        .grid,
+        .grid-3,
+        .grid-4,
+        .summary {
+            grid-template-columns: 1fr;
+        }
+
+        .checkbox-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .vote-row {
+            grid-template-columns: 1fr;
+        }
+
+        .admins {
+            grid-template-columns: 1fr;
+        }
+
+        header .top {
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
+            align-items: flex-start;
         }
-        .container {
-            text-align: center;
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+
+        .result-table {
+            display: block;
+            overflow-x: auto;
         }
-        button {
-            background-color: #0070f3;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 15px;
-        }
-        button:hover {
-            background-color: #0051b3;
-        }
-    </style>
+    }
+</style>
 </head>
+
 <body>
 
-    <div class="container">
-        <h1>🚀 Meu Site de Teste</h1>
-        <p>Se você está vendo esta página, o deploy na Vercel funcionou!</p>
-        <button onclick="interagir()">Clique Aqui</button>
-        <p id="mensagem" style="margin-top: 15px; font-weight: bold; color: #0070f3;"></p>
+<header>
+    <div class="top">
+        <div>
+            <h1>🗳️ Apuração Eleitoral</h1>
+            <p>Sistema de apuração independente por eleição e estado</p>
+        </div>
+
+        <button class="btn-light" onclick="abrirLogin()">
+            Área Administrativa
+        </button>
+    </div>
+</header>
+
+
+<!-- =========================
+     ÁREA PÚBLICA
+========================= -->
+
+<main id="publicArea" class="container">
+
+    <div class="card">
+
+        <div class="result-header">
+
+            <div>
+                <div class="result-title">
+                    Apuração
+                </div>
+
+                <p>
+                    Selecione a eleição e o turno que deseja consultar.
+                </p>
+            </div>
+
+            <div class="public-selector">
+
+                <div class="form-group">
+                    <label>Eleição</label>
+
+                    <select id="publicElection"
+                            onchange="atualizarPublicRoundSelector()">
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Turno</label>
+
+                    <select id="publicRound"
+                            class="round-selector"
+                            onchange="renderPublicResults()">
+                    </select>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div id="publicResults"></div>
+
     </div>
 
-    <script>
-        function interagir() {
-            document.getElementById('mensagem').innerText = '🎉 Sucesso! O JavaScript também está funcionando.';
+</main>
+
+
+<!-- =========================
+     LOGIN
+========================= -->
+
+<section id="loginArea" class="container hidden">
+
+    <div class="card login-box">
+
+        <h2>Área Administrativa</h2>
+
+        <p style="margin-bottom:18px;">
+            Selecione o administrador:
+        </p>
+
+        <div class="admins">
+
+            <div class="admin-option"
+                 id="adminDavi"
+                 onclick="selecionarAdmin('davi')">
+
+                <div class="admin-icon">
+                    DA
+                </div>
+
+                <strong>
+                    Davi Aguiar
+                </strong>
+
+            </div>
+
+            <div class="admin-option"
+                 id="adminAntony"
+                 onclick="selecionarAdmin('antony')">
+
+                <div class="admin-icon">
+                    AP
+                </div>
+
+                <strong>
+                    Antony Pietro
+                </strong>
+
+            </div>
+
+        </div>
+
+        <div id="loginPasswordArea" class="hidden">
+
+            <div class="form-group">
+
+                <label for="loginPassword">
+                    Senha
+                </label>
+
+                <input
+                    type="password"
+                    id="loginPassword"
+                    placeholder="Digite a senha"
+                    onkeydown="if(event.key==='Enter') fazerLogin()"
+                >
+
+            </div>
+
+            <div id="loginMessage"></div>
+
+            <button class="btn-green"
+                    onclick="fazerLogin()">
+                Entrar
+            </button>
+
+        </div>
+
+        <button class="btn-gray"
+                style="margin-top:15px;"
+                onclick="voltarPublico()">
+
+            Voltar
+
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     PAINEL ADMINISTRATIVO
+========================= -->
+
+<section id="adminArea"
+         class="container hidden">
+
+    <div class="card">
+
+        <div class="result-header">
+
+            <div>
+
+                <div class="result-title">
+                    Painel Administrativo
+                </div>
+
+                <p id="loggedAdmin"></p>
+
+            </div>
+
+            <button class="btn-red"
+                    onclick="logout()">
+                Sair
+            </button>
+
+        </div>
+
+
+        <div class="admin-nav">
+
+            <button id="navCandidates"
+                    class="active"
+                    onclick="mostrarAdminSection('candidates')">
+
+                👤 Candidatos
+
+            </button>
+
+            <button id="navSecondRound"
+                    onclick="mostrarAdminSection('secondRound')">
+
+                ⚙️ 2º Turno
+
+            </button>
+
+            <button id="navVotes"
+                    onclick="mostrarAdminSection('votes')">
+
+                🗳️ Lançar Votos
+
+            </button>
+
+            <button id="navResults"
+                    onclick="mostrarAdminSection('results')">
+
+                📊 Apuração
+
+            </button>
+
+        </div>
+
+
+        <!-- =====================
+             CANDIDATOS
+        ====================== -->
+
+        <div id="adminCandidates">
+
+            <h2>Cadastro de Candidatos</h2>
+
+            <div class="card"
+                 style="background:#f8fcf9;">
+
+                <h3 id="candidateFormTitle">
+                    Novo candidato
+                </h3>
+
+                <input type="hidden"
+                       id="editingCandidateId">
+
+                <div class="grid">
+
+                    <div class="form-group">
+
+                        <label>
+                            Nome
+                        </label>
+
+                        <input id="candidateName"
+                               placeholder="Nome completo">
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Partido
+                        </label>
+
+                        <input id="candidateParty"
+                               placeholder="Ex.: Partido X">
+
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Número
+                    </label>
+
+                    <input id="candidateNumber"
+                           type="number"
+                           placeholder="Número eleitoral">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Disputa em:
+                    </label>
+
+                    <div id="candidateDisputes"
+                         class="checkbox-grid">
+                    </div>
+
+                </div>
+
+                <button class="btn-green"
+                        onclick="salvarCandidato()">
+
+                    Salvar candidato
+
+                </button>
+
+                <button class="btn-gray"
+                        onclick="limparFormularioCandidato()">
+
+                    Limpar
+
+                </button>
+
+            </div>
+
+            <h3>
+                Candidatos cadastrados
+            </h3>
+
+            <div id="candidateList"></div>
+
+        </div>
+
+
+        <!-- =====================
+             CONFIGURAR 2º TURNO
+        ====================== -->
+
+        <div id="adminSecondRound"
+             class="hidden">
+
+            <h2>
+                Configuração do 2º Turno
+            </h2>
+
+            <div class="notice info">
+
+                Ative o 2º turno para uma eleição e selecione
+                os dois candidatos que irão disputar essa etapa.
+                O 2º turno possui uma apuração de votos
+                independente do 1º turno.
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+                    Escolha a eleição
+                </label>
+
+                <select id="secondRoundElection"
+                        onchange="renderSecondRoundConfig()">
+                </select>
+
+            </div>
+
+            <div id="secondRoundConfig"></div>
+
+        </div>
+
+
+        <!-- =====================
+             LANÇAR VOTOS
+        ====================== -->
+
+        <div id="adminVotes"
+             class="hidden">
+
+            <h2>
+                Lançar Votos
+            </h2>
+
+            <div class="form-group">
+
+                <label>
+                    Escolha a apuração
+                </label>
+
+                <select id="adminVoteElection"
+                        onchange="renderVoteRoundSelector()">
+                </select>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+                    Turno
+                </label>
+
+                <select id="adminVoteRound"
+                        onchange="renderVoteForm()">
+                </select>
+
+            </div>
+
+            <div id="voteForm"></div>
+
+        </div>
+
+
+        <!-- =====================
+             RESULTADOS
+        ====================== -->
+
+        <div id="adminResults"
+             class="hidden">
+
+            <h2>
+                Apuração
+            </h2>
+
+            <div class="form-group">
+
+                <label>
+                    Escolha a apuração
+                </label>
+
+                <select id="adminResultElection"
+                        onchange="renderAdminRoundSelector()">
+                </select>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+                    Turno
+                </label>
+
+                <select id="adminResultRound"
+                        onchange="renderAdminResults()">
+                </select>
+
+            </div>
+
+            <div id="adminResultContent"></div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<footer>
+    Sistema local de apuração eleitoral —
+    dados armazenados no navegador.
+</footer>
+
+
+<script>
+
+/* ==========================================================
+   ESTADOS
+========================================================== */
+
+const STATES = [
+
+    ["AC", "Acre"],
+    ["AL", "Alagoas"],
+    ["AP", "Amapá"],
+    ["AM", "Amazonas"],
+    ["BA", "Bahia"],
+    ["CE", "Ceará"],
+    ["DF", "Distrito Federal"],
+    ["ES", "Espírito Santo"],
+    ["GO", "Goiás"],
+    ["MA", "Maranhão"],
+    ["MT", "Mato Grosso"],
+    ["MS", "Mato Grosso do Sul"],
+    ["MG", "Minas Gerais"],
+    ["PA", "Pará"],
+    ["PB", "Paraíba"],
+    ["PR", "Paraná"],
+    ["PE", "Pernambuco"],
+    ["PI", "Piauí"],
+    ["RJ", "Rio de Janeiro"],
+    ["RN", "Rio Grande do Norte"],
+    ["RS", "Rio Grande do Sul"],
+    ["RO", "Rondônia"],
+    ["RR", "Roraima"],
+    ["SC", "Santa Catarina"],
+    ["SP", "São Paulo"],
+    ["SE", "Sergipe"],
+    ["TO", "Tocantins"]
+
+];
+
+
+/* ==========================================================
+   ELEIÇÕES
+========================================================== */
+
+const ELECTIONS = [
+
+    {
+        id: "presidencia",
+        name: "Presidência"
+    },
+
+    ...STATES.map(state => ({
+
+        id: state[0].toLowerCase(),
+
+        name: state[1]
+
+    }))
+
+];
+
+
+/* ==========================================================
+   ADMINISTRADORES
+========================================================== */
+
+const ADMINS = {
+
+    davi: {
+
+        name: "Davi Aguiar",
+
+        password: "1234"
+
+    },
+
+    antony: {
+
+        name: "Antony Pietro",
+
+        password: "5678"
+
+    }
+
+};
+
+
+/* ==========================================================
+   STORAGE
+========================================================== */
+
+const STORAGE_CANDIDATES =
+    "eleicao_candidatos_v2";
+
+const STORAGE_RESULTS =
+    "eleicao_resultados_v2";
+
+const STORAGE_SECOND_ROUNDS =
+    "eleicao_segundo_turno_v1";
+
+
+let candidates = JSON.parse(
+
+    localStorage.getItem(
+        STORAGE_CANDIDATES
+    ) || "[]"
+
+);
+
+
+let results = JSON.parse(
+
+    localStorage.getItem(
+        STORAGE_RESULTS
+    ) || "{}"
+
+);
+
+
+let secondRounds = JSON.parse(
+
+    localStorage.getItem(
+        STORAGE_SECOND_ROUNDS
+    ) || "{}"
+
+);
+
+
+let selectedAdmin = null;
+
+let loggedAdmin = null;
+
+
+/* ==========================================================
+   STORAGE
+========================================================== */
+
+function saveCandidates() {
+
+    localStorage.setItem(
+
+        STORAGE_CANDIDATES,
+
+        JSON.stringify(candidates)
+
+    );
+
+}
+
+
+function saveResults() {
+
+    localStorage.setItem(
+
+        STORAGE_RESULTS,
+
+        JSON.stringify(results)
+
+    );
+
+}
+
+
+function saveSecondRounds() {
+
+    localStorage.setItem(
+
+        STORAGE_SECOND_ROUNDS,
+
+        JSON.stringify(secondRounds)
+
+    );
+
+}
+
+
+/* ==========================================================
+   INICIALIZAÇÃO
+========================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        criarSelectPublico();
+
+        criarSelectsAdmin();
+
+        criarCheckboxDisputas();
+
+        atualizarPublicRoundSelector();
+
+        renderPublicResults();
+
+        renderCandidateList();
+
+        renderSecondRoundConfig();
+
+        renderVoteRoundSelector();
+
+        renderAdminRoundSelector();
+
+    }
+);
+
+
+/* ==========================================================
+   SELECTS
+========================================================== */
+
+function criarSelectPublico() {
+
+    const select =
+        document.getElementById(
+            "publicElection"
+        );
+
+    select.innerHTML =
+        ELECTIONS.map(e => `
+
+            <option value="${e.id}">
+                ${e.name}
+            </option>
+
+        `).join("");
+
+}
+
+
+function criarSelectsAdmin() {
+
+    const html =
+        ELECTIONS.map(e => `
+
+            <option value="${e.id}">
+                ${e.name}
+            </option>
+
+        `).join("");
+
+
+    document.getElementById(
+        "adminVoteElection"
+    ).innerHTML = html;
+
+
+    document.getElementById(
+        "adminResultElection"
+    ).innerHTML = html;
+
+
+    document.getElementById(
+        "secondRoundElection"
+    ).innerHTML = html;
+
+}
+
+
+function criarCheckboxDisputas() {
+
+    const container =
+        document.getElementById(
+            "candidateDisputes"
+        );
+
+
+    container.innerHTML =
+        ELECTIONS.map(e => `
+
+            <label class="check-item">
+
+                <input
+                    type="checkbox"
+                    value="${e.id}"
+                    class="dispute-checkbox"
+                >
+
+                <span>
+                    ${e.name}
+                </span>
+
+            </label>
+
+        `).join("");
+
+}
+
+
+/* ==========================================================
+   FUNÇÕES DO 2º TURNO
+========================================================== */
+
+function getSecondRoundConfig(electionId) {
+
+    if (!secondRounds[electionId]) {
+
+        secondRounds[electionId] = {
+
+            enabled: false,
+
+            candidates: []
+
+        };
+
+    }
+
+
+    return secondRounds[electionId];
+
+}
+
+
+function getSecondRoundResultKey(electionId) {
+
+    return electionId + "__2turno";
+
+}
+
+
+function isSecondRoundEnabled(electionId) {
+
+    return !!(
+        secondRounds[electionId] &&
+        secondRounds[electionId].enabled &&
+        Array.isArray(
+            secondRounds[electionId].candidates
+        ) &&
+        secondRounds[electionId].candidates.length === 2
+    );
+
+}
+
+
+function getCandidatesForSecondRound(electionId) {
+
+    const config =
+        getSecondRoundConfig(electionId);
+
+
+    return candidates.filter(candidate =>
+
+        config.candidates.includes(
+            candidate.id
+        )
+
+    );
+
+}
+
+
+function renderSecondRoundConfig() {
+
+    const electionId =
+        document.getElementById(
+            "secondRoundElection"
+        ).value || "presidencia";
+
+
+    const container =
+        document.getElementById(
+            "secondRoundConfig"
+        );
+
+
+    if (!container) return;
+
+
+    const config =
+        getSecondRoundConfig(electionId);
+
+
+    const election =
+        ELECTIONS.find(
+            e => e.id === electionId
+        );
+
+
+    if (!election) return;
+
+
+    const electionCandidates =
+        getCandidatesForElection(
+            electionId
+        );
+
+
+    if (electionCandidates.length < 2) {
+
+        container.innerHTML = `
+
+            <div class="notice warning">
+
+                É necessário ter pelo menos
+                2 candidatos cadastrados nesta eleição
+                para configurar o 2º turno.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML = `
+
+        <div class="round-card
+                    ${config.enabled ? "active-round" : ""}">
+
+            <span class="round-badge">
+                2º TURNO
+            </span>
+
+            <h3>
+                ${escapeHTML(election.name)}
+            </h3>
+
+            <div class="form-group">
+
+                <label>
+
+                    <input
+                        type="checkbox"
+                        id="enableSecondRound"
+                        style="width:auto;margin-right:7px;"
+                        ${config.enabled ? "checked" : ""}
+                    >
+
+                    Ativar 2º turno nesta eleição
+
+                </label>
+
+            </div>
+
+            <div class="notice info">
+
+                Selecione exatamente
+                <strong>2 candidatos</strong>
+                para disputar o 2º turno.
+
+            </div>
+
+            <div id="secondRoundCandidates">
+
+                ${electionCandidates.map(candidate => {
+
+                    const selected =
+                        config.candidates.includes(
+                            candidate.id
+                        );
+
+                    return `
+
+                        <div class="second-round-candidate
+                                    ${selected ? "selected" : ""}">
+
+                            <label style="margin:0;">
+
+                                <input
+                                    type="checkbox"
+                                    class="second-round-candidate-checkbox"
+                                    value="${candidate.id}"
+                                    ${selected ? "checked" : ""}
+                                    style="width:auto;margin-right:8px;"
+                                    onchange="limitarSelecaoSegundoTurno()"
+                                >
+
+                                <strong>
+                                    ${escapeHTML(candidate.name)}
+                                </strong>
+
+                                — ${escapeHTML(candidate.party)}
+
+                                — Nº
+                                ${escapeHTML(candidate.number)}
+
+                            </label>
+
+                        </div>
+
+                    `;
+
+                }).join("")}
+
+            </div>
+
+            <br>
+
+            <div id="secondRoundMessage"></div>
+
+            <button class="btn-green"
+                    onclick="salvarConfiguracaoSegundoTurno()">
+
+                Salvar configuração do 2º turno
+
+            </button>
+
+            <button class="btn-gray"
+                    onclick="desativarSegundoTurno()">
+
+                Desativar 2º turno
+
+            </button>
+
+        </div>
+
+    `;
+
+}
+
+
+function limitarSelecaoSegundoTurno() {
+
+    const checkboxes =
+        document.querySelectorAll(
+            ".second-round-candidate-checkbox"
+        );
+
+
+    const selecionados =
+        [...checkboxes]
+        .filter(c => c.checked);
+
+
+    if (selecionados.length > 2) {
+
+        const ultimo =
+            selecionados[selecionados.length - 1];
+
+        ultimo.checked = false;
+
+        alert(
+            "O 2º turno deve ter exatamente 2 candidatos."
+        );
+
+    }
+
+
+    checkboxes.forEach(input => {
+
+        const card =
+            input.closest(
+                ".second-round-candidate"
+            );
+
+        if (card) {
+
+            card.classList.toggle(
+                "selected",
+                input.checked
+            );
+
         }
-    </script>
+
+    });
+
+}
+
+
+function salvarConfiguracaoSegundoTurno() {
+
+    const electionId =
+        document.getElementById(
+            "secondRoundElection"
+        ).value;
+
+
+    const enabled =
+        document.getElementById(
+            "enableSecondRound"
+        ).checked;
+
+
+    const selected =
+        [...document.querySelectorAll(
+            ".second-round-candidate-checkbox:checked"
+        )].map(input => input.value);
+
+
+    const message =
+        document.getElementById(
+            "secondRoundMessage"
+        );
+
+
+    if (enabled && selected.length !== 2) {
+
+        message.innerHTML = `
+
+            <div class="notice error">
+
+                Para ativar o 2º turno,
+                selecione exatamente 2 candidatos.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    secondRounds[electionId] = {
+
+        enabled: enabled,
+
+        candidates: selected
+
+    };
+
+
+    saveSecondRounds();
+
+
+    message.innerHTML = `
+
+        <div class="notice success">
+
+            Configuração do 2º turno salva com sucesso.
+
+        </div>
+
+    `;
+
+
+    atualizarPublicRoundSelector();
+
+    renderVoteRoundSelector();
+
+    renderAdminRoundSelector();
+
+    renderPublicResults();
+
+}
+
+
+function desativarSegundoTurno() {
+
+    const electionId =
+        document.getElementById(
+            "secondRoundElection"
+        ).value;
+
+
+    secondRounds[electionId] = {
+
+        enabled: false,
+
+        candidates: []
+
+    };
+
+
+    saveSecondRounds();
+
+
+    renderSecondRoundConfig();
+
+    atualizarPublicRoundSelector();
+
+    renderVoteRoundSelector();
+
+    renderAdminRoundSelector();
+
+    renderPublicResults();
+
+}
+
+
+/* ==========================================================
+   LOGIN
+========================================================== */
+
+function abrirLogin() {
+
+    document.getElementById(
+        "publicArea"
+    ).classList.add("hidden");
+
+
+    document.getElementById(
+        "adminArea"
+    ).classList.add("hidden");
+
+
+    document.getElementById(
+        "loginArea"
+    ).classList.remove("hidden");
+
+}
+
+
+function voltarPublico() {
+
+    document.getElementById(
+        "loginArea"
+    ).classList.add("hidden");
+
+
+    document.getElementById(
+        "adminArea"
+    ).classList.add("hidden");
+
+
+    document.getElementById(
+        "publicArea"
+    ).classList.remove("hidden");
+
+}
+
+
+function selecionarAdmin(admin) {
+
+    selectedAdmin = admin;
+
+
+    document.getElementById(
+        "adminDavi"
+    ).classList.remove("selected");
+
+
+    document.getElementById(
+        "adminAntony"
+    ).classList.remove("selected");
+
+
+    if (admin === "davi") {
+
+        document.getElementById(
+            "adminDavi"
+        ).classList.add("selected");
+
+    } else {
+
+        document.getElementById(
+            "adminAntony"
+        ).classList.add("selected");
+
+    }
+
+
+    document.getElementById(
+        "loginPasswordArea"
+    ).classList.remove("hidden");
+
+
+    document.getElementById(
+        "loginPassword"
+    ).focus();
+
+}
+
+
+function fazerLogin() {
+
+    const password =
+        document.getElementById(
+            "loginPassword"
+        ).value;
+
+
+    const message =
+        document.getElementById(
+            "loginMessage"
+        );
+
+
+    if (!selectedAdmin) {
+
+        message.innerHTML = `
+
+            <div class="notice error">
+
+                Selecione um administrador.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    if (
+        password !==
+        ADMINS[selectedAdmin].password
+    ) {
+
+        message.innerHTML = `
+
+            <div class="notice error">
+
+                Senha incorreta.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    loggedAdmin = selectedAdmin;
+
+
+    document.getElementById(
+        "loggedAdmin"
+    ).textContent =
+        "Administrador: " +
+        ADMINS[selectedAdmin].name;
+
+
+    document.getElementById(
+        "loginArea"
+    ).classList.add("hidden");
+
+
+    document.getElementById(
+        "publicArea"
+    ).classList.add("hidden");
+
+
+    document.getElementById(
+        "adminArea"
+    ).classList.remove("hidden");
+
+
+    document.getElementById(
+        "loginPassword"
+    ).value = "";
+
+
+    mostrarAdminSection("candidates");
+
+}
+
+
+function logout() {
+
+    loggedAdmin = null;
+
+    selectedAdmin = null;
+
+
+    document.getElementById(
+        "adminArea"
+    ).classList.add("hidden");
+
+
+    document.getElementById(
+        "publicArea"
+    ).classList.remove("hidden");
+
+
+    renderPublicResults();
+
+}
+
+
+/* ==========================================================
+   NAVEGAÇÃO ADMIN
+========================================================== */
+
+function mostrarAdminSection(section) {
+
+    document.getElementById(
+        "adminCandidates"
+    ).classList.add("hidden");
+
+
+    document.getElementById(
+        "adminSecondRound"
+    ).classList.add("hidden");
+
+
+    document.getElementById(
+        "adminVotes"
+    ).classList.add("hidden");
+
+
+    document.getElementById(
+        "adminResults"
+    ).classList.add("hidden");
+
+
+    document.getElementById(
+        "navCandidates"
+    ).classList.remove("active");
+
+
+    document.getElementById(
+        "navSecondRound"
+    ).classList.remove("active");
+
+
+    document.getElementById(
+        "navVotes"
+    ).classList.remove("active");
+
+
+    document.getElementById(
+        "navResults"
+    ).classList.remove("active");
+
+
+    if (section === "candidates") {
+
+        document.getElementById(
+            "adminCandidates"
+        ).classList.remove("hidden");
+
+
+        document.getElementById(
+            "navCandidates"
+        ).classList.add("active");
+
+
+        renderCandidateList();
+
+    }
+
+
+    if (section === "secondRound") {
+
+        document.getElementById(
+            "adminSecondRound"
+        ).classList.remove("hidden");
+
+
+        document.getElementById(
+            "navSecondRound"
+        ).classList.add("active");
+
+
+        renderSecondRoundConfig();
+
+    }
+
+
+    if (section === "votes") {
+
+        document.getElementById(
+            "adminVotes"
+        ).classList.remove("hidden");
+
+
+        document.getElementById(
+            "navVotes"
+        ).classList.add("active");
+
+
+        renderVoteRoundSelector();
+
+        renderVoteForm();
+
+    }
+
+
+    if (section === "results") {
+
+        document.getElementById(
+            "adminResults"
+        ).classList.remove("hidden");
+
+
+        document.getElementById(
+            "navResults"
+        ).classList.add("active");
+
+
+        renderAdminRoundSelector();
+
+        renderAdminResults();
+
+    }
+
+}
+
+
+/* ==========================================================
+   CANDIDATOS
+========================================================== */
+
+function salvarCandidato() {
+
+    const name =
+        document.getElementById(
+            "candidateName"
+        ).value.trim();
+
+
+    const party =
+        document.getElementById(
+            "candidateParty"
+        ).value.trim();
+
+
+    const number =
+        document.getElementById(
+            "candidateNumber"
+        ).value.trim();
+
+
+    const editingId =
+        document.getElementById(
+            "editingCandidateId"
+        ).value;
+
+
+    const disputes = [
+
+        ...document.querySelectorAll(
+            ".dispute-checkbox:checked"
+        )
+
+    ].map(input => input.value);
+
+
+    if (!name || !party || !number) {
+
+        alert(
+            "Preencha Nome, Partido e Número."
+        );
+
+        return;
+
+    }
+
+
+    if (disputes.length === 0) {
+
+        alert(
+            "Selecione pelo menos uma disputa."
+        );
+
+        return;
+
+    }
+
+
+    if (editingId) {
+
+        const candidate =
+            candidates.find(
+                c => c.id === editingId
+            );
+
+
+        if (!candidate) return;
+
+
+        const duplicate =
+            candidates.some(c => {
+
+                if (c.id === editingId) {
+                    return false;
+                }
+
+
+                if (c.number !== number) {
+                    return false;
+                }
+
+
+                return c.disputes.some(
+                    electionId =>
+                        disputes.includes(
+                            electionId
+                        )
+                );
+
+            });
+
+
+        if (duplicate) {
+
+            alert(
+                "Já existe outro candidato com esse número em uma das eleições selecionadas."
+            );
+
+            return;
+
+        }
+
+
+        candidate.name = name;
+
+        candidate.party = party;
+
+        candidate.number = number;
+
+        candidate.disputes = disputes;
+
+
+    } else {
+
+
+        const duplicate =
+            candidates.some(c => {
+
+                if (c.number !== number) {
+                    return false;
+                }
+
+
+                return c.disputes.some(
+                    electionId =>
+                        disputes.includes(
+                            electionId
+                        )
+                );
+
+            });
+
+
+        if (duplicate) {
+
+            alert(
+                "Já existe um candidato com esse número em uma das eleições selecionadas."
+            );
+
+            return;
+
+        }
+
+
+        candidates.push({
+
+            id: Date.now().toString(),
+
+            name,
+
+            party,
+
+            number,
+
+            disputes
+
+        });
+
+    }
+
+
+    saveCandidates();
+
+    limparFormularioCandidato();
+
+    renderCandidateList();
+
+    renderPublicResults();
+
+    renderSecondRoundConfig();
+
+    alert(
+        "Candidato salvo com sucesso."
+    );
+
+}
+
+
+function limparFormularioCandidato() {
+
+    document.getElementById(
+        "editingCandidateId"
+    ).value = "";
+
+
+    document.getElementById(
+        "candidateName"
+    ).value = "";
+
+
+    document.getElementById(
+        "candidateParty"
+    ).value = "";
+
+
+    document.getElementById(
+        "candidateNumber"
+    ).value = "";
+
+
+    document.querySelectorAll(
+        ".dispute-checkbox"
+    ).forEach(
+        input => input.checked = false
+    );
+
+
+    document.getElementById(
+        "candidateFormTitle"
+    ).textContent =
+        "Novo candidato";
+
+}
+
+
+function editarCandidato(id) {
+
+    const candidate =
+        candidates.find(
+            c => c.id === id
+        );
+
+
+    if (!candidate) return;
+
+
+    document.getElementById(
+        "editingCandidateId"
+    ).value =
+        candidate.id;
+
+
+    document.getElementById(
+        "candidateName"
+    ).value =
+        candidate.name;
+
+
+    document.getElementById(
+        "candidateParty"
+    ).value =
+        candidate.party;
+
+
+    document.getElementById(
+        "candidateNumber"
+    ).value =
+        candidate.number;
+
+
+    document.querySelectorAll(
+        ".dispute-checkbox"
+    ).forEach(input => {
+
+        input.checked =
+            candidate.disputes.includes(
+                input.value
+            );
+
+    });
+
+
+    document.getElementById(
+        "candidateFormTitle"
+    ).textContent =
+        "Editar candidato";
+
+
+    window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+
+    });
+
+}
+
+
+function excluirCandidato(id) {
+
+    const candidate =
+        candidates.find(
+            c => c.id === id
+        );
+
+
+    if (!candidate) return;
+
+
+    const confirmDelete =
+        confirm(
+
+            `Excluir o candidato ${candidate.name}?\n\n` +
+
+            `Os votos desse candidato também serão removidos das apurações.`
+
+        );
+
+
+    if (!confirmDelete) return;
+
+
+    ELECTIONS.forEach(
+        election => {
+
+            const keys = [
+
+                election.id,
+
+                getSecondRoundResultKey(
+                    election.id
+                )
+
+            ];
+
+
+            keys.forEach(key => {
+
+                if (!results[key]) return;
+
+
+                const oldVotes =
+                    Number(
+                        results[key]
+                            .candidateVotes?.[id] ||
+                        0
+                    );
+
+
+                if (
+                    results[key]
+                        .candidateVotes
+                ) {
+
+                    delete results[key]
+                        .candidateVotes[id];
+
+                }
+
+
+                results[key].validVotes =
+                    Math.max(
+
+                        0,
+
+                        Number(
+                            results[key]
+                                .validVotes ||
+                            0
+                        ) - oldVotes
+
+                    );
+
+
+                recalcularTotal(key);
+
+            });
+
+
+            if (
+                secondRounds[election.id]
+            ) {
+
+                secondRounds[
+                    election.id
+                ].candidates =
+                    secondRounds[
+                        election.id
+                    ].candidates.filter(
+                        candidateId =>
+                            candidateId !== id
+                    );
+
+
+                if (
+                    secondRounds[
+                        election.id
+                    ].candidates.length !== 2
+                ) {
+
+                    secondRounds[
+                        election.id
+                    ].enabled = false;
+
+                }
+
+            }
+
+        }
+    );
+
+
+    candidates =
+        candidates.filter(
+            c => c.id !== id
+        );
+
+
+    saveCandidates();
+
+    saveResults();
+
+    saveSecondRounds();
+
+    renderCandidateList();
+
+    renderPublicResults();
+
+    renderVoteForm();
+
+    renderSecondRoundConfig();
+
+}
+
+
+function renderCandidateList() {
+
+    const container =
+        document.getElementById(
+            "candidateList"
+        );
+
+
+    if (candidates.length === 0) {
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                Nenhum candidato cadastrado.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        candidates.map(candidate => {
+
+            const disputeNames =
+                candidate.disputes.map(
+                    id => {
+
+                        const election =
+                            ELECTIONS.find(
+                                e => e.id === id
+                            );
+
+
+                        return election
+                            ? election.name
+                            : id;
+
+                    }
+                );
+
+
+            return `
+
+                <div class="candidate-card">
+
+                    <div class="name">
+
+                        ${escapeHTML(
+                            candidate.name
+                        )}
+
+                    </div>
+
+                    <div class="party">
+
+                        ${escapeHTML(
+                            candidate.party
+                        )}
+
+                    </div>
+
+                    <span class="number">
+
+                        Nº
+                        ${escapeHTML(
+                            candidate.number
+                        )}
+
+                    </span>
+
+                    <div class="state-tags">
+
+                        ${disputeNames.map(
+                            name => `
+
+                            <span class="tag">
+
+                                ${escapeHTML(
+                                    name
+                                )}
+
+                            </span>
+
+                        `).join("")}
+
+                    </div>
+
+                    <div class="actions">
+
+                        <button
+                            class="btn-yellow"
+                            onclick="editarCandidato('${candidate.id}')">
+
+                            Editar
+
+                        </button>
+
+                        <button
+                            class="btn-red"
+                            onclick="excluirCandidato('${candidate.id}')">
+
+                            Excluir
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }).join("");
+
+}
+
+
+/* ==========================================================
+   VOTOS
+========================================================== */
+
+function getElectionResult(electionId) {
+
+    if (!results[electionId]) {
+
+        results[electionId] = {
+
+            candidateVotes: {},
+
+            validVotes: 0,
+
+            blankVotes: 0,
+
+            nullVotes: 0,
+
+            totalVotes: 0
+
+        };
+
+    }
+
+
+    if (
+        !results[electionId]
+            .candidateVotes
+    ) {
+
+        results[electionId]
+            .candidateVotes = {};
+
+    }
+
+
+    return results[electionId];
+
+}
+
+
+function recalcularTotal(electionId) {
+
+    const data =
+        getElectionResult(
+            electionId
+        );
+
+
+    data.totalVotes =
+
+        Number(
+            data.validVotes || 0
+        )
+
+        +
+
+        Number(
+            data.blankVotes || 0
+        )
+
+        +
+
+        Number(
+            data.nullVotes || 0
+        );
+
+}
+
+
+function getVoteRoundKey() {
+
+    const electionId =
+        document.getElementById(
+            "adminVoteElection"
+        ).value;
+
+
+    const round =
+        document.getElementById(
+            "adminVoteRound"
+        ).value;
+
+
+    if (round === "2") {
+
+        return getSecondRoundResultKey(
+            electionId
+        );
+
+    }
+
+
+    return electionId;
+
+}
+
+
+function renderVoteRoundSelector() {
+
+    const electionId =
+        document.getElementById(
+            "adminVoteElection"
+        ).value ||
+        "presidencia";
+
+
+    const select =
+        document.getElementById(
+            "adminVoteRound"
+        );
+
+
+    if (!select) return;
+
+
+    let html = `
+
+        <option value="1">
+            1º Turno
+        </option>
+
+    `;
+
+
+    if (
+        isSecondRoundEnabled(
+            electionId
+        )
+    ) {
+
+        html += `
+
+            <option value="2">
+                2º Turno
+            </option>
+
+        `;
+
+    }
+
+
+    select.innerHTML = html;
+
+
+    if (
+        select.dataset.keep === "2" &&
+        isSecondRoundEnabled(
+            electionId
+        )
+    ) {
+
+        select.value = "2";
+
+    } else {
+
+        select.value = "1";
+
+    }
+
+
+    renderVoteForm();
+
+}
+
+
+function renderVoteForm() {
+
+    const electionId =
+        document.getElementById(
+            "adminVoteElection"
+        ).value;
+
+
+    const round =
+        document.getElementById(
+            "adminVoteRound"
+        ).value || "1";
+
+
+    const election =
+        ELECTIONS.find(
+            e => e.id === electionId
+        );
+
+
+    const container =
+        document.getElementById(
+            "voteForm"
+        );
+
+
+    if (!election) return;
+
+
+    let resultKey = electionId;
+
+
+    let participatingCandidates =
+        candidates.filter(
+            c => c.disputes.includes(
+                electionId
+            )
+        );
+
+
+    let roundName = "1º Turno";
+
+
+    if (round === "2") {
+
+        resultKey =
+            getSecondRoundResultKey(
+                electionId
+            );
+
+
+        roundName = "2º Turno";
+
+
+        participatingCandidates =
+            getCandidatesForSecondRound(
+                electionId
+            );
+
+    }
+
+
+    const data =
+        getElectionResult(
+            resultKey
+        );
+
+
+    let candidatesHTML = "";
+
+
+    if (
+        participatingCandidates.length === 0
+    ) {
+
+        candidatesHTML = `
+
+            <div class="notice info">
+
+                Nenhum candidato está disponível
+                para esta apuração.
+
+            </div>
+
+        `;
+
+    } else {
+
+        candidatesHTML =
+            participatingCandidates.map(
+                candidate => {
+
+                    const value =
+                        Number(
+                            data.candidateVotes[
+                                candidate.id
+                            ] || 0
+                        );
+
+
+                    return `
+
+                        <div class="vote-row">
+
+                            <div>
+
+                                <div class="vote-name">
+
+                                    ${escapeHTML(
+                                        candidate.name
+                                    )}
+
+                                </div>
+
+                                <div class="vote-info">
+
+                                    ${escapeHTML(
+                                        candidate.party
+                                    )}
+
+                                    —
+                                    Nº
+                                    ${escapeHTML(
+                                        candidate.number
+                                    )}
+
+                                </div>
+
+                            </div>
+
+                            <input
+                                type="number"
+                                min="0"
+                                value="${value}"
+                                data-candidate-vote="${candidate.id}"
+                                class="candidate-vote-input"
+                            >
+
+                        </div>
+
+                    `;
+
+                }
+            ).join("");
+
+    }
+
+
+    container.innerHTML = `
+
+        <div class="card"
+             style="background:#f8fcf9;">
+
+            <span class="round-badge">
+
+                ${roundName}
+
+            </span>
+
+            <h3>
+
+                ${escapeHTML(
+                    election.name
+                )}
+
+            </h3>
+
+            ${
+                round === "2"
+                ? `
+                    <div class="notice info">
+
+                        Esta é a apuração independente
+                        do 2º turno.
+
+                    </div>
+                `
+                : ""
+            }
+
+            <div class="form-group">
+
+                <label>
+                    Votos dos candidatos
+                </label>
+
+                ${candidatesHTML}
+
+            </div>
+
+            <div class="grid-3">
+
+                <div class="form-group">
+
+                    <label>
+                        Votos válidos
+                    </label>
+
+                    <input
+                        type="number"
+                        min="0"
+                        id="validVotes"
+                        value="${Number(
+                            data.validVotes || 0
+                        )}"
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Votos brancos
+                    </label>
+
+                    <input
+                        type="number"
+                        min="0"
+                        id="blankVotes"
+                        value="${Number(
+                            data.blankVotes || 0
+                        )}"
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Votos nulos
+                    </label>
+
+                    <input
+                        type="number"
+                        min="0"
+                        id="nullVotes"
+                        value="${Number(
+                            data.nullVotes || 0
+                        )}"
+                    >
+
+                </div>
+
+            </div>
+
+            <div class="summary">
+
+                <div class="summary-box">
+
+                    <div class="label">
+                        Total de votos
+                    </div>
+
+                    <div class="value"
+                         id="calculatedTotal">
+
+                        ${Number(
+                            data.totalVotes || 0
+                        )}
+
+                    </div>
+
+                </div>
+
+                <div class="summary-box">
+
+                    <div class="label">
+                        Votos válidos
+                    </div>
+
+                    <div class="value">
+
+                        ${Number(
+                            data.validVotes || 0
+                        )}
+
+                    </div>
+
+                </div>
+
+                <div class="summary-box">
+
+                    <div class="label">
+                        Brancos
+                    </div>
+
+                    <div class="value">
+
+                        ${Number(
+                            data.blankVotes || 0
+                        )}
+
+                    </div>
+
+                </div>
+
+                <div class="summary-box">
+
+                    <div class="label">
+                        Nulos
+                    </div>
+
+                    <div class="value">
+
+                        ${Number(
+                            data.nullVotes || 0
+                        )}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <br>
+
+            <div id="voteMessage"></div>
+
+            <button class="btn-green"
+                    onclick="salvarVotos()">
+
+                Salvar apuração
+
+            </button>
+
+            <button class="btn-gray"
+                    onclick="limparVotosFormulario()">
+
+                Limpar
+
+            </button>
+
+        </div>
+
+    `;
+
+
+    const validInput =
+        document.getElementById(
+            "validVotes"
+        );
+
+
+    const blankInput =
+        document.getElementById(
+            "blankVotes"
+        );
+
+
+    const nullInput =
+        document.getElementById(
+            "nullVotes"
+        );
+
+
+    if (validInput) {
+
+        validInput.addEventListener(
+            "input",
+            atualizarTotalVisual
+        );
+
+    }
+
+
+    if (blankInput) {
+
+        blankInput.addEventListener(
+            "input",
+            atualizarTotalVisual
+        );
+
+    }
+
+
+    if (nullInput) {
+
+        nullInput.addEventListener(
+            "input",
+            atualizarTotalVisual
+        );
+
+    }
+
+}
+
+
+function atualizarTotalVisual() {
+
+    const valid =
+        Number(
+            document.getElementById(
+                "validVotes"
+            ).value || 0
+        );
+
+
+    const blank =
+        Number(
+            document.getElementById(
+                "blankVotes"
+            ).value || 0
+        );
+
+
+    const nul =
+        Number(
+            document.getElementById(
+                "nullVotes"
+            ).value || 0
+        );
+
+
+    const total =
+        document.getElementById(
+            "calculatedTotal"
+        );
+
+
+    if (total) {
+
+        total.textContent =
+            valid + blank + nul;
+
+    }
+
+}
+
+
+function salvarVotos() {
+
+    const electionId =
+        document.getElementById(
+            "adminVoteElection"
+        ).value;
+
+
+    const round =
+        document.getElementById(
+            "adminVoteRound"
+        ).value;
+
+
+    let resultKey =
+        electionId;
+
+
+    if (round === "2") {
+
+        if (
+            !isSecondRoundEnabled(
+                electionId
+            )
+        ) {
+
+            alert(
+                "O 2º turno não está configurado para esta eleição."
+            );
+
+            return;
+
+        }
+
+
+        resultKey =
+            getSecondRoundResultKey(
+                electionId
+            );
+
+    }
+
+
+    const data =
+        getElectionResult(
+            resultKey
+        );
+
+
+    const inputs =
+        document.querySelectorAll(
+            "[data-candidate-vote]"
+        );
+
+
+    let candidateTotal = 0;
+
+
+    inputs.forEach(input => {
+
+        const candidateId =
+            input.dataset.candidateVote;
+
+
+        const value =
+            Math.max(
+                0,
+                Number(
+                    input.value || 0
+                )
+            );
+
+
+        data.candidateVotes[
+            candidateId
+        ] = value;
+
+
+        candidateTotal += value;
+
+    });
+
+
+    const validVotes =
+        Math.max(
+
+            0,
+
+            Number(
+                document.getElementById(
+                    "validVotes"
+                ).value || 0
+            )
+
+        );
+
+
+    const blankVotes =
+        Math.max(
+
+            0,
+
+            Number(
+                document.getElementById(
+                    "blankVotes"
+                ).value || 0
+            )
+
+        );
+
+
+    const nullVotes =
+        Math.max(
+
+            0,
+
+            Number(
+                document.getElementById(
+                    "nullVotes"
+                ).value || 0
+            )
+
+        );
+
+
+    if (
+        candidateTotal !== validVotes
+    ) {
+
+        document.getElementById(
+            "voteMessage"
+        ).innerHTML = `
+
+            <div class="notice error">
+
+                A soma dos votos dos candidatos
+                (${formatNumber(candidateTotal)})
+                precisa ser igual aos votos válidos
+                (${formatNumber(validVotes)}).
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    data.validVotes =
+        validVotes;
+
+
+    data.blankVotes =
+        blankVotes;
+
+
+    data.nullVotes =
+        nullVotes;
+
+
+    recalcularTotal(
+        resultKey
+    );
+
+
+    saveResults();
+
+
+    document.getElementById(
+        "voteMessage"
+    ).innerHTML = `
+
+        <div class="notice success">
+
+            Apuração do
+            ${round === "2"
+                ? "2º turno"
+                : "1º turno"}
+            salva com sucesso.
+
+        </div>
+
+    `;
+
+
+    renderPublicResults();
+
+
+    setTimeout(
+        () => {
+
+            renderVoteForm();
+
+        },
+        500
+    );
+
+}
+
+
+function limparVotosFormulario() {
+
+    document.querySelectorAll(
+        ".candidate-vote-input"
+    ).forEach(
+        input => input.value = 0
+    );
+
+
+    const valid =
+        document.getElementById(
+            "validVotes"
+        );
+
+
+    const blank =
+        document.getElementById(
+            "blankVotes"
+        );
+
+
+    const nul =
+        document.getElementById(
+            "nullVotes"
+        );
+
+
+    if (valid) valid.value = 0;
+
+    if (blank) blank.value = 0;
+
+    if (nul) nul.value = 0;
+
+
+    atualizarTotalVisual();
+
+}
+
+
+/* ==========================================================
+   RESULTADOS
+========================================================== */
+
+function calcularPercentual(
+    valor,
+    total
+) {
+
+    if (
+        !total ||
+        total <= 0
+    ) {
+
+        return 0;
+
+    }
+
+
+    return (
+        Number(valor || 0) /
+        total
+    ) * 100;
+
+}
+
+
+function formatNumber(value) {
+
+    return Number(
+        value || 0
+    ).toLocaleString(
+        "pt-BR"
+    );
+
+}
+
+
+function formatPercent(value) {
+
+    return Number(
+        value || 0
+    ).toLocaleString(
+        "pt-BR",
+        {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }
+    ) + "%";
+
+}
+
+
+function getCandidatesForElection(
+    electionId
+) {
+
+    return candidates
+
+        .filter(
+            c =>
+                c.disputes.includes(
+                    electionId
+                )
+        )
+
+        .sort(
+            (a,b) =>
+                Number(a.number) -
+                Number(b.number)
+        );
+
+}
+
+
+function renderResultsHTML(
+    electionId,
+    round = "1"
+) {
+
+    const election =
+        ELECTIONS.find(
+            e => e.id === electionId
+        );
+
+
+    if (!election) return "";
+
+
+    let resultKey =
+        electionId;
+
+
+    let electionCandidates =
+        getCandidatesForElection(
+            electionId
+        );
+
+
+    let roundName =
+        "1º Turno";
+
+
+    if (round === "2") {
+
+        resultKey =
+            getSecondRoundResultKey(
+                electionId
+            );
+
+
+        roundName =
+            "2º Turno";
+
+
+        electionCandidates =
+            getCandidatesForSecondRound(
+                electionId
+            );
+
+    }
+
+
+    const data =
+        getElectionResult(
+            resultKey
+        );
+
+
+    const valid =
+        Number(
+            data.validVotes || 0
+        );
+
+
+    const blank =
+        Number(
+            data.blankVotes || 0
+        );
+
+
+    const nul =
+        Number(
+            data.nullVotes || 0
+        );
+
+
+    const total =
+        Number(
+            data.totalVotes || 0
+        );
+
+
+    let html = `
+
+        <div class="result-header">
+
+            <div>
+
+                <span class="round-badge">
+
+                    ${roundName}
+
+                </span>
+
+                <div class="result-title">
+
+                    ${escapeHTML(
+                        election.name
+                    )}
+
+                </div>
+
+                <p>
+
+                    Apuração independente desta disputa.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    if (
+        electionCandidates.length === 0
+    ) {
+
+        html += `
+
+            <div class="empty">
+
+                Nenhum candidato cadastrado
+                nesta disputa.
+
+            </div>
+
+        `;
+
+    } else {
+
+        html += `
+
+            <div style="overflow-x:auto;">
+
+                <table class="result-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Posição
+                            </th>
+
+                            <th>
+                                Candidato
+                            </th>
+
+                            <th>
+                                Partido
+                            </th>
+
+                            <th>
+                                Número
+                            </th>
+
+                            <th>
+                                Votos
+                            </th>
+
+                            <th>
+                                % dos válidos
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+        `;
+
+
+        const sorted =
+            electionCandidates
+                .slice()
+                .sort(
+                    (a,b) => {
+
+                        const av =
+                            Number(
+                                data.candidateVotes[
+                                    a.id
+                                ] || 0
+                            );
+
+
+                        const bv =
+                            Number(
+                                data.candidateVotes[
+                                    b.id
+                                ] || 0
+                            );
+
+
+                        return bv - av;
+
+                    }
+                );
+
+
+        sorted.forEach(
+            (candidate,index) => {
+
+                const votes =
+                    Number(
+                        data.candidateVotes[
+                            candidate.id
+                        ] || 0
+                    );
+
+
+                const percent =
+                    calcularPercentual(
+                        votes,
+                        valid
+                    );
+
+
+                html += `
+
+                    <tr>
+
+                        <td>
+
+                            <strong>
+                                ${index + 1}º
+                            </strong>
+
+                        </td>
+
+                        <td>
+
+                            <strong>
+
+                                ${escapeHTML(
+                                    candidate.name
+                                )}
+
+                            </strong>
+
+                            <div class="bar">
+
+                                <div
+                                    class="bar-fill"
+                                    style="width:${Math.min(
+                                        percent,
+                                        100
+                                    )}%">
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+
+                            ${escapeHTML(
+                                candidate.party
+                            )}
+
+                        </td>
+
+                        <td>
+
+                            <strong>
+
+                                ${escapeHTML(
+                                    candidate.number
+                                )}
+
+                            </strong>
+
+                        </td>
+
+                        <td>
+
+                            ${formatNumber(
+                                votes
+                            )}
+
+                        </td>
+
+                        <td>
+
+                            ${formatPercent(
+                                percent
+                            )}
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+        );
+
+
+        html += `
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        `;
+
+
+        /*
+         * RESULTADO DO 2º TURNO
+         */
+
+        if (
+            round === "2" &&
+            electionCandidates.length === 2 &&
+            valid > 0
+        ) {
+
+            const sortedWinner =
+                electionCandidates
+                    .slice()
+                    .sort(
+                        (a,b) => {
+
+                            const av =
+                                Number(
+                                    data.candidateVotes[
+                                        a.id
+                                    ] || 0
+                                );
+
+
+                            const bv =
+                                Number(
+                                    data.candidateVotes[
+                                        b.id
+                                    ] || 0
+                                );
+
+
+                            return bv - av;
+
+                        }
+                    );
+
+
+            const winner =
+                sortedWinner[0];
+
+
+            const winnerVotes =
+                Number(
+                    data.candidateVotes[
+                        winner.id
+                    ] || 0
+                );
+
+
+            const winnerPercent =
+                calcularPercentual(
+                    winnerVotes,
+                    valid
+                );
+
+
+            const second =
+                sortedWinner[1];
+
+
+            const secondVotes =
+                Number(
+                    data.candidateVotes[
+                        second.id
+                    ] || 0
+                );
+
+
+            const secondPercent =
+                calcularPercentual(
+                    secondVotes,
+                    valid
+                );
+
+
+            if (
+                winnerVotes > secondVotes
+            ) {
+
+                html += `
+
+                    <div class="winner-box">
+
+                        <h3>
+                            🏆 Vencedor
+                        </h3>
+
+                        <div class="winner-name">
+
+                            ${escapeHTML(
+                                winner.name
+                            )}
+
+                        </div>
+
+                        <p style="margin-top:8px;">
+
+                            ${formatNumber(
+                                winnerVotes
+                            )}
+                            votos —
+                            ${formatPercent(
+                                winnerPercent
+                            )}
+
+                        </p>
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+    }
+
+
+    const blankPercent =
+        calcularPercentual(
+            blank,
+            total
+        );
+
+
+    const nullPercent =
+        calcularPercentual(
+            nul,
+            total
+        );
+
+
+    html += `
+
+        <div class="summary">
+
+            <div class="summary-box">
+
+                <div class="label">
+                    Total de votos
+                </div>
+
+                <div class="value">
+
+                    ${formatNumber(
+                        total
+                    )}
+
+                </div>
+
+            </div>
+
+            <div class="summary-box">
+
+                <div class="label">
+                    Votos válidos
+                </div>
+
+                <div class="value">
+
+                    ${formatNumber(
+                        valid
+                    )}
+
+                </div>
+
+            </div>
+
+            <div class="summary-box">
+
+                <div class="label">
+                    Votos brancos
+                </div>
+
+                <div class="value">
+
+                    ${formatNumber(
+                        blank
+                    )}
+
+                    <small>
+
+                        (
+                        ${formatPercent(
+                            blankPercent
+                        )}
+                        )
+
+                    </small>
+
+                </div>
+
+            </div>
+
+            <div class="summary-box">
+
+                <div class="label">
+                    Votos nulos
+                </div>
+
+                <div class="value">
+
+                    ${formatNumber(
+                        nul
+                    )}
+
+                    <small>
+
+                        (
+                        ${formatPercent(
+                            nullPercent
+                        )}
+                        )
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="notice info"
+             style="margin-top:15px;">
+
+            O percentual dos candidatos é calculado
+            sobre os votos válidos.
+            Brancos e nulos são calculados sobre
+            o total de votos desta apuração.
+
+        </div>
+
+    `;
+
+
+    return html;
+
+}
+
+
+/* ==========================================================
+   PÚBLICO — TURNO
+========================================================== */
+
+function atualizarPublicRoundSelector() {
+
+    const electionId =
+        document.getElementById(
+            "publicElection"
+        ).value ||
+        "presidencia";
+
+
+    const select =
+        document.getElementById(
+            "publicRound"
+        );
+
+
+    if (!select) return;
+
+
+    const oldValue =
+        select.value;
+
+
+    let html = `
+
+        <option value="1">
+            1º Turno
+        </option>
+
+    `;
+
+
+    if (
+        isSecondRoundEnabled(
+            electionId
+        )
+    ) {
+
+        html += `
+
+            <option value="2">
+                2º Turno
+            </option>
+
+        `;
+
+    }
+
+
+    select.innerHTML = html;
+
+
+    if (
+        oldValue === "2" &&
+        isSecondRoundEnabled(
+            electionId
+        )
+    ) {
+
+        select.value = "2";
+
+    } else {
+
+        select.value = "1";
+
+    }
+
+
+    renderPublicResults();
+
+}
+
+
+function renderPublicResults() {
+
+    const electionId =
+        document.getElementById(
+            "publicElection"
+        ).value ||
+        "presidencia";
+
+
+    const round =
+        document.getElementById(
+            "publicRound"
+        ).value || "1";
+
+
+    document.getElementById(
+        "publicResults"
+    ).innerHTML =
+
+        renderResultsHTML(
+            electionId,
+            round
+        );
+
+}
+
+
+/* ==========================================================
+   ADMIN — TURNO
+========================================================== */
+
+function renderAdminRoundSelector() {
+
+    const electionId =
+        document.getElementById(
+            "adminResultElection"
+        ).value ||
+        "presidencia";
+
+
+    const select =
+        document.getElementById(
+            "adminResultRound"
+        );
+
+
+    if (!select) return;
+
+
+    let html = `
+
+        <option value="1">
+            1º Turno
+        </option>
+
+    `;
+
+
+    if (
+        isSecondRoundEnabled(
+            electionId
+        )
+    ) {
+
+        html += `
+
+            <option value="2">
+                2º Turno
+            </option>
+
+        `;
+
+    }
+
+
+    select.innerHTML = html;
+
+
+    if (
+        select.dataset.keep === "2" &&
+        isSecondRoundEnabled(
+            electionId
+        )
+    ) {
+
+        select.value = "2";
+
+    } else {
+
+        select.value = "1";
+
+    }
+
+
+    renderAdminResults();
+
+}
+
+
+function renderAdminResults() {
+
+    const electionId =
+        document.getElementById(
+            "adminResultElection"
+        ).value ||
+        "presidencia";
+
+
+    const round =
+        document.getElementById(
+            "adminResultRound"
+        ).value || "1";
+
+
+    document.getElementById(
+        "adminResultContent"
+    ).innerHTML =
+
+        renderResultsHTML(
+            electionId,
+            round
+        );
+
+}
+
+
+/* ==========================================================
+   SEGURANÇA / HTML
+========================================================== */
+
+function escapeHTML(value) {
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+</script>
 
 </body>
 </html>
+
+
